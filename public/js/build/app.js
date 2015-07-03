@@ -36,11 +36,7 @@
   }
 
   ActivitiesSvc.prototype.get = function(id) {
-    return this.allActivities.getList().then(function(data) {
-      return _.find(data, function(activity) {
-        return activity.id === id;
-      });
-    });
+    return this.allActivities.get(id);
   }
 
   ActivitiesCtrl.$inject = ['ActivitiesSvc'];
