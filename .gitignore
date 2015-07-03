@@ -34,3 +34,4 @@ node_modules
 .idea
 
 public/vendor
+secrets.js

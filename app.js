@@ -16,7 +16,8 @@ var manifest = {
   }],
   plugins: {
     './routes/hello': {},
-    './plugins/static': {}
+    './routes/activities': {},
+    './plugins/static': {},
   }
 };
 
