@@ -5,15 +5,17 @@
   "main": "index.js",
   "dependencies": {
     "bell": "~4.0.0",
-    "hapi": "~8.6.1",
+    "bower": "^1.4.1",
     "glue": "~2.1.0",
+    "hapi": "~8.6.1",
     "joi": "~6.5.0"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "watch": "supervisor -w app.js,routes/ -- app.js"
+    "watch": "supervisor -w app.js,routes/ -- app.js",
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",

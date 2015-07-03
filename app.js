@@ -15,7 +15,8 @@ var manifest = {
     port: process.env.PORT || 3000
   }],
   plugins: {
-    './routes/hello': {}
+    './routes/hello': {},
+    './plugins/static': {}
   }
 };
 
