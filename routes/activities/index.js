@@ -1,33 +1,25 @@
 var cfg = require('../../config');
-var strava = require('strava-v3');
-var _ = require('lodash');
+var strava = require('./strava');
 var Joi = require('joi');
 
 var validateId = Joi.number().integer().positive();
 
-var terribleCache = {
-  activity: []
-};
-
-var stravaCfg = {'access_token': cfg('stravaAccessToken')};
-
 exports.register = function(server, options, next) {
+  var defaultCache = {
+    cache: {
+      expiresIn: 5*60*1000
+    }
+  };
+
+  server.method('athlete.listActivities', strava.listActivities, defaultCache);
+  server.method('activities.get', strava.getActivity, defaultCache);
+
   server.route({
     method: 'GET',
     path: '/api/v1/activities',
     handler: function(req, rep) {
-      if (terribleCache.activities) {
-        console.log('serving from awful cache');
-        return rep(terribleCache.activities);
-      }
-
-      strava.athlete.listActivities(stravaCfg, function(err, payload) {
-        console.log('oh no hitting strava');
-        var data = _.map(payload, function(activity) {
-          return {id: activity.id, name: activity.name};
-        });
-        terribleCache.activities = data;
-        rep(terribleCache.activities);
+      server.methods.athlete.listActivities(function(err, data) {
+        rep(data);
       });
     }
   });
@@ -37,20 +29,8 @@ exports.register = function(server, options, next) {
     path: '/api/v1/activities/{id}',
     handler: function(req, rep) {
       var id = parseInt(req.params.id, 10);
-
-      if (terribleCache.activity[id]) {
-        console.log('serving from awful cache');
-        return rep(terribleCache.activity[id]);
-      }
-      var options = _.clone(stravaCfg);
-      options.id = id;
-
-      strava.activities.get(options, function(err, payload) {
-        console.log('oh no hitting strava');
-        console.log(err)
-        var data = payload;
-        terribleCache.activity[id] = data;
-        rep(terribleCache.activity[id]);
+      server.methods.activities.get(id, function(err, data) {
+        rep(data);
       });
     },
     config: {
