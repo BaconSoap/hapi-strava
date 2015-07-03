@@ -17,6 +17,9 @@
     "angular": "~1.4.1",
     "foundation": "~5.5.2",
     "restangular": "~1.5.1",
-    "ui-router": "~0.2.15"
+    "ui-router": "~0.2.15",
+    "leaflet": "~0.7.3",
+    "Leaflet.encoded": "jieter/leaflet.encoded#~0.0.7",
+    "tile.stamen": "http://maps.stamen.com/js/tile.stamen.js?v1.3.0"
   }
 }
