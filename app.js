@@ -4,6 +4,11 @@ var manifest = {
   server: {
     debug: {
       request: ['error']
+    },
+    connections: {
+      router: {
+        stripTrailingSlash: true
+      }
     }
   },
   connections: [{
