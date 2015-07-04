@@ -1,5 +1,42 @@
 (function() {
-  var app = angular.module('hapi-strava', ['restangular', 'ui.router']);
+  var app = angular.module('hapi-strava.activities', ['hapi-strava.model.activities']);
+
+  ActivitiesCtrl.$inject = ['ActivitiesSvc'];
+  function ActivitiesCtrl(activitiesSvc) {
+    this.activities = activitiesSvc.list();
+  }
+
+  app.controller('ActivitiesCtrl', ActivitiesCtrl);
+})();
+
+
+(function() {
+  var app = angular.module('hapi-strava.activity', ['hapi-strava.model.activities']);
+
+  ActivityCtrl.$inject = ['ActivitiesSvc', 'activity'];
+  function ActivityCtrl(activitiesSvc, activity) {
+    console.log(activity)
+    this.activity = activity;
+    showMap(this.activity.map.summary_polyline)
+  }
+
+  function showMap(polyline) {
+    var map = new L.Map("map");
+
+    // use Stamen's 'terrain' base layer
+    var layer = new L.StamenTileLayer("terrain");
+    map.addLayer(layer);
+
+    var decoded = L.Polyline.fromEncoded(polyline);
+    map.addLayer(decoded)
+    map.fitBounds(decoded.getBounds());
+  }
+
+  app.controller('ActivityCtrl', ActivityCtrl);
+})();
+
+(function() {
+  var app = angular.module('hapi-strava', ['restangular', 'ui.router', 'hapi-strava.activities', 'hapi-strava.activity']);
 
   app.config(['RestangularProvider', '$stateProvider', '$urlRouterProvider', function(rest, states, urlRouter) {
     rest.setBaseUrl('/api/v1');
@@ -24,6 +61,10 @@
         controller: 'ActivityCtrl as activityCtrl'
       });
   }]);
+})();
+
+(function() {
+  var app = angular.module('hapi-strava.model.activities', ['restangular']);
 
   ActivitiesSvc.$inject = ['Restangular'];
 
@@ -39,31 +80,5 @@
     return this.allActivities.get(id);
   }
 
-  ActivitiesCtrl.$inject = ['ActivitiesSvc'];
-  function ActivitiesCtrl(activitiesSvc) {
-    this.activities = activitiesSvc.list();
-  }
-
-  ActivityCtrl.$inject = ['ActivitiesSvc', 'activity'];
-  function ActivityCtrl(activitiesSvc, activity) {
-    console.log(activity)
-    this.activity = activity;
-    showMap(this.activity.map.summary_polyline)
-  }
-
-  function showMap(polyline) {
-    var map = new L.Map("map");
-
-    // use Stamen's 'terrain' base layer
-    var layer = new L.StamenTileLayer("terrain");
-    map.addLayer(layer);
-
-    var decoded = L.Polyline.fromEncoded(polyline);
-    map.addLayer(decoded)
-    map.fitBounds(decoded.getBounds());
-  }
-
   app.service('ActivitiesSvc', ActivitiesSvc);
-  app.controller('ActivitiesCtrl', ActivitiesCtrl);
-  app.controller('ActivityCtrl', ActivityCtrl);
 })();
