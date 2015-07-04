@@ -36,3 +36,4 @@ node_modules
 public/vendor
 secrets.js
 public/js/build
+*.sublime-workspace

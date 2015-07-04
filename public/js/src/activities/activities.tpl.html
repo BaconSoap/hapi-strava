@@ -6,7 +6,10 @@
 
   <div class="large-10 columns">
     <h4><a ui-sref="activities.details({id: activity.id})">{{activity.name}}</a></h4>
-
+    <ul class="inline-list">
+      <li>{{activity.temporal.start | prettyDate}}</li>
+      <li>{{activity.spatial.distance | prettyDistance}}</li>
+    </ul>
     <ul class="inline-list">
       <!--<li>
         <a href="">Reply</a>

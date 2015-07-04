@@ -6,7 +6,6 @@
     var vm = this;
     vm.activities = activities;
     _.each(vm.activities, function(a) {
-      console.log(a)
       setTimeout(function() {
         showMap(a.id, a.summary, true);
       }, 0)

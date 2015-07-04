@@ -29,5 +29,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BaconSoap/hapi-strava/issues"
+  },
+  "devDependencies": {
+    "supervisor": "^0.7.1"
   }
 }

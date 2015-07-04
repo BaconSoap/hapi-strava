@@ -4,7 +4,6 @@
 
   ActivityCtrl.$inject = ['ActivitiesSvc', 'activity'];
   function ActivityCtrl(activitiesSvc, activity) {
-    console.log(activity)
     this.activity = activity;
     setTimeout(function() {
       showMap(activity.id, activity.map.summary_polyline)

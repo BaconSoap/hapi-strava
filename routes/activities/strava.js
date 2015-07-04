@@ -7,7 +7,17 @@ var stravaCfg = {'access_token': cfg('stravaAccessToken')};
 function listActivities(next) {
   strava.athlete.listActivities(stravaCfg, function(err, payload) {
     var data = _.map(payload, function(activity) {
-      return {id: activity.id, name: activity.name, summary: activity.map.summary_polyline};
+      return {
+        id: activity.id,
+        name: activity.name,
+        summary: activity.map.summary_polyline,
+        temporal: {
+          start: activity.start_date_local
+        },
+        spatial: {
+          distance: activity.distance
+        }
+      };
     });
     next(null, data);
   });

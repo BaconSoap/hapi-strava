@@ -1,5 +1,8 @@
 (function() {
-  var app = angular.module('hapi-strava', ['restangular', 'ui.router', 'hapi-strava.activities', 'hapi-strava.activity', 'hapi-strava.templates']);
+  var app = angular.module('hapi-strava', [
+    'restangular', 'ui.router', 'hapi-strava.activities',
+    'hapi-strava.activity', 'hapi-strava.templates', 'hapi-strava.filters'
+  ]);
 
   app.config(['RestangularProvider', '$stateProvider', '$urlRouterProvider', function(rest, states, urlRouter) {
     rest.setBaseUrl('/api/v1');
@@ -34,7 +37,6 @@
 })();
 
 function showMap(id, polyline, isStatic) {
-  console.log(id + ' showMap')
   var map = new L.Map("map_" + id, {
     attributionControl: false,
     zoomControl: !isStatic
