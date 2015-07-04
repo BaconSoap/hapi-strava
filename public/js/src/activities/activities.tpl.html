@@ -1,0 +1,19 @@
+<ui-view/>
+<div class="row" ng-repeat="activity in activitiesCtrl.activities">
+  <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"></div>
+
+  <div class="large-10 columns">
+    <h4><a ui-sref=".details({id: activity.id})">{{activity.name}}</a></h4>
+
+    <ul class="inline-list">
+      <!--<li>
+        <a href="">Reply</a>
+      </li>
+
+      <li>
+        <a href="">Share</a>
+      </li> -->
+    </ul>
+  </div>
+  <hr>
+</div>
