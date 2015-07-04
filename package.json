@@ -21,7 +21,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "watch": "supervisor -w app.js,routes/ -- app.js",
-    "postinstall": "bower install"
+    "postinstall": "bower install && gulp scripts && gulp templates"
   },
   "repository": {
     "type": "git",
