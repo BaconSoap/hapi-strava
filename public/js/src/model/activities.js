@@ -8,7 +8,7 @@
   };
 
   ActivitiesSvc.prototype.list = function() {
-    return this.allActivities.getList().$object;
+    return this.allActivities.getList();
   }
 
   ActivitiesSvc.prototype.get = function(id) {

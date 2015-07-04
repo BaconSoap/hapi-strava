@@ -7,7 +7,7 @@ var stravaCfg = {'access_token': cfg('stravaAccessToken')};
 function listActivities(next) {
   strava.athlete.listActivities(stravaCfg, function(err, payload) {
     var data = _.map(payload, function(activity) {
-      return {id: activity.id, name: activity.name};
+      return {id: activity.id, name: activity.name, summary: activity.map.summary_polyline};
     });
     next(null, data);
   });

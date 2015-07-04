@@ -1,9 +1,11 @@
 <ui-view/>
 <div class="row" ng-repeat="activity in activitiesCtrl.activities">
-  <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"></div>
+  <div class="large-2 columns small-3">
+    <div style="height:100px" id="map_{{activity.id}}"></div>
+  </div>
 
   <div class="large-10 columns">
-    <h4><a ui-sref=".details({id: activity.id})">{{activity.name}}</a></h4>
+    <h4><a ui-sref="activities.details({id: activity.id})">{{activity.name}}</a></h4>
 
     <ul class="inline-list">
       <!--<li>

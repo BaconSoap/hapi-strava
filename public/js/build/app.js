@@ -9,16 +9,23 @@
     states
       .state('activities', {
         url: '/activities',
+        abstract: true,
+        template: '<ui-view />'
+      }).state('activities.list', {
+        url: '',
         templateUrl: '/views/activities/activities.tpl.html',
-        controller: 'ActivitiesCtrl as activitiesCtrl'
+        controller: 'ActivitiesCtrl as activitiesCtrl',
+        resolve: {
+          activities: function(ActivitiesSvc) {
+            return ActivitiesSvc.list();
+          }
+        }
       }).state('activities.details', {
         url: '/{id:int}',
         templateUrl: '/views/activities/activity.tpl.html',
         resolve: {
           activity: function(ActivitiesSvc, $stateParams) {
-            return ActivitiesSvc.get($stateParams.id).then(function(data) {
-              return data;
-            });
+            return ActivitiesSvc.get($stateParams.id);
           }
         },
         controller: 'ActivityCtrl as activityCtrl'
@@ -26,12 +33,43 @@
   }]);
 })();
 
+function showMap(id, polyline, isStatic) {
+  console.log(id + ' showMap')
+  var map = new L.Map("map_" + id, {
+    attributionControl: false,
+    zoomControl: !isStatic
+  });
+
+  // use Stamen's 'terrain' base layer
+  var layer = new L.StamenTileLayer("terrain");
+  map.addLayer(layer);
+
+  var decoded = L.Polyline.fromEncoded(polyline);
+  map.addLayer(decoded)
+  map.fitBounds(decoded.getBounds());
+
+  if (isStatic) {
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
+    if (map.tap) map.tap.disable();
+  }
+}
+
 (function() {
   var app = angular.module('hapi-strava.activities', ['hapi-strava.model.activities']);
 
-  ActivitiesCtrl.$inject = ['ActivitiesSvc'];
-  function ActivitiesCtrl(activitiesSvc) {
-    this.activities = activitiesSvc.list();
+  ActivitiesCtrl.$inject = ['activities'];
+  function ActivitiesCtrl(activities) {
+    var vm = this;
+    vm.activities = activities;
+    _.each(vm.activities, function(a) {
+      console.log(a)
+      setTimeout(function() {
+        showMap(a.id, a.summary, true);
+      }, 0)
+    });
   }
 
   app.controller('ActivitiesCtrl', ActivitiesCtrl);
@@ -45,19 +83,9 @@
   function ActivityCtrl(activitiesSvc, activity) {
     console.log(activity)
     this.activity = activity;
-    showMap(this.activity.map.summary_polyline)
-  }
-
-  function showMap(polyline) {
-    var map = new L.Map("map");
-
-    // use Stamen's 'terrain' base layer
-    var layer = new L.StamenTileLayer("terrain");
-    map.addLayer(layer);
-
-    var decoded = L.Polyline.fromEncoded(polyline);
-    map.addLayer(decoded)
-    map.fitBounds(decoded.getBounds());
+    setTimeout(function() {
+      showMap(activity.id, activity.map.summary_polyline)
+    }, 0);
   }
 
   app.controller('ActivityCtrl', ActivityCtrl);
@@ -73,7 +101,7 @@
   };
 
   ActivitiesSvc.prototype.list = function() {
-    return this.allActivities.getList().$object;
+    return this.allActivities.getList();
   }
 
   ActivitiesSvc.prototype.get = function(id) {

@@ -8,10 +8,12 @@ module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/views/activities/activities.tpl.html',
     '<ui-view/>\n' +
     '<div class="row" ng-repeat="activity in activitiesCtrl.activities">\n' +
-    '  <div class="large-2 columns small-3"><img src="http://placehold.it/80x80&text=[img]"></div>\n' +
+    '  <div class="large-2 columns small-3">\n' +
+    '    <div style="height:100px" id="map_{{activity.id}}"></div>\n' +
+    '  </div>\n' +
     '\n' +
     '  <div class="large-10 columns">\n' +
-    '    <h4><a ui-sref=".details({id: activity.id})">{{activity.name}}</a></h4>\n' +
+    '    <h4><a ui-sref="activities.details({id: activity.id})">{{activity.name}}</a></h4>\n' +
     '\n' +
     '    <ul class="inline-list">\n' +
     '      <!--<li>\n' +
@@ -38,7 +40,7 @@ try {
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('/views/activities/activity.tpl.html',
     'Viewing bike ride {{activityCtrl.activity.name}}\n' +
-    '<div id="map" style="width: 300px; height: 300px"> </div>\n' +
+    '<div id="map_{{activityCtrl.activity.id}}" style="width: 300px; height: 300px"> </div>\n' +
     '');
 }]);
 })();
