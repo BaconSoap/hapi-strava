@@ -1,7 +1,8 @@
 (function() {
   var app = angular.module('hapi-strava', [
     'restangular', 'ui.router', 'hapi-strava.activities',
-    'hapi-strava.activity', 'hapi-strava.templates', 'hapi-strava.filters'
+    'hapi-strava.activity', 'hapi-strava.templates', 'hapi-strava.filters',
+    'hapi-strava.map'
   ]);
 
   app.config(['RestangularProvider', '$stateProvider', '$urlRouterProvider', function(rest, states, urlRouter) {
@@ -35,26 +36,3 @@
       });
   }]);
 })();
-
-function showMap(id, polyline, isStatic) {
-  var map = new L.Map("map_" + id, {
-    attributionControl: false,
-    zoomControl: !isStatic
-  });
-
-  // use Stamen's 'terrain' base layer
-  var layer = new L.StamenTileLayer("terrain");
-  map.addLayer(layer);
-
-  var decoded = L.Polyline.fromEncoded(polyline);
-  map.addLayer(decoded)
-  map.fitBounds(decoded.getBounds());
-
-  if (isStatic) {
-    map.dragging.disable();
-    map.touchZoom.disable();
-    map.doubleClickZoom.disable();
-    map.scrollWheelZoom.disable();
-    if (map.tap) map.tap.disable();
-  }
-}

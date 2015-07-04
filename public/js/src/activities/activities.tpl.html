@@ -1,7 +1,7 @@
 <ui-view/>
 <div class="row" ng-repeat="activity in activitiesCtrl.activities">
   <div class="large-2 columns small-3">
-    <div style="height:100px" id="map_{{activity.id}}"></div>
+    <div leaflet-map polyline="activity.summary" is-static="true" map-id="activity.id" size="100"></div>
   </div>
 
   <div class="large-10 columns">

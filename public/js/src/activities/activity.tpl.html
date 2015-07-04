@@ -1,2 +1,9 @@
 Viewing bike ride {{activityCtrl.activity.name}}
-<div id="map_{{activityCtrl.activity.id}}" style="width: 300px; height: 300px"> </div>
+
+<div leaflet-map polyline="activityCtrl.activity.map.summary_polyline" map-id="activityCtrl.activity.id" />
+
+<ul>
+	<li ng-repeat="seg in activityCtrl.activity.segment_efforts">
+		a
+	</li>
+</ul>

@@ -9,7 +9,6 @@
 
   app.filter('prettyDistance', function() {
     return function(val) {
-      console.log(val);
       return (Math.round(val / 100) / 10) + ' km';
     };
   });
