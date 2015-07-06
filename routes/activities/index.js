@@ -13,6 +13,7 @@ exports.register = function(server, options, next) {
 
   server.method('athlete.listActivities', strava.listActivities, defaultCache);
   server.method('activities.get', strava.getActivity, defaultCache);
+  server.method('streams.get', strava.getStream, defaultCache);
 
   server.route({
     method: 'GET',
@@ -41,6 +42,24 @@ exports.register = function(server, options, next) {
       }
     }
   });
+
+  server.route({
+    method: 'GET',
+    path: '/api/v1/activities/{id}/streams',
+    handler: function(req, rep) {
+      var id = parseInt(req.params.id, 10);
+      server.methods.streams.get(id, function(err, data) {
+        rep(data);
+      });
+    },
+    config: {
+      validate: {
+        params: {
+          id: validateId
+        }
+      }
+    }
+  })
   next();
 }
 exports.register.attributes = {

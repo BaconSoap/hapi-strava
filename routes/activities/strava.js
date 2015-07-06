@@ -32,7 +32,20 @@ function getActivity(id, next) {
   });
 }
 
+function getStream(id, next) {
+  var options = _.clone(stravaCfg);
+  options.id = id;
+  options.types = 'latlng';
+  strava.streams.activity(options, function(err, payload) {
+    if (err) {
+      return next(err);
+    }
+    next(null, payload);
+  })
+}
+
 module.exports = {
   listActivities: listActivities,
-  getActivity: getActivity
+  getActivity: getActivity,
+  getStream: getStream
 };
