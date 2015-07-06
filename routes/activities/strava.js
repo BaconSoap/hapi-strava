@@ -40,7 +40,8 @@ function getStream(id, next) {
     if (err) {
       return next(err);
     }
-    next(null, payload);
+    var data = _.find(payload, function(s) { return s.type === 'latlng'; });
+    next(null, data);
   })
 }
 

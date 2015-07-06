@@ -7,14 +7,22 @@
         polyline: '=polyline',
         mapId: '=mapId',
         isStatic: '=isStatic',
-        size: '=size'
+        size: '=size',
+        highlight: '=highlight'
       },
       link:  {
         pre: function(scope, el, attrs) {
           scope.elId = 'hapi-map-' + scope.mapId;
           scope.size = scope.size || 300;
         }, post: function(scope, el, attrs) {
-          setTimeout(function() { showMap(el.find('div')[0], scope.polyline, scope.isStatic)}, 0);
+          setTimeout(function() {
+            var map = showMap(el.find('div')[0], scope.polyline, scope.isStatic);
+            scope.$watch('highlight', function(newVal) {
+              if (newVal) {
+                highlight(newVal, map);
+              }
+            });
+          }, 0);
         }
       }
     };
@@ -41,6 +49,17 @@
       map.scrollWheelZoom.disable();
       if (map.tap) map.tap.disable();
     }
+    return map;
+  }
+
+  function highlight(latLngs, map) {
+    if (map.highlightedSegment) {
+      map.removeLayer(map.highlightedSegment);
+    }
+    var line = L.polyline(latLngs, {color: 'red'});
+    map.highlightedSegment = line;
+    line.addTo(map);
+    map.fitBounds(line.getBounds());
   }
 
 })();
