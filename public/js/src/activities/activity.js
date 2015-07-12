@@ -23,7 +23,8 @@
     var that = this;
     this.activitiesSvc.getStreams(this.activity).then(function(stream) {
       var latLngs = stream.data.slice(seg.startIndex, seg.endIndex + 1);
-      that.highlighted = latLngs
+      that.highlighted = { segment: seg };
+      that.highlighted.latlngs = latLngs;
     })
   }
 

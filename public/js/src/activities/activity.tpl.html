@@ -1,5 +1,28 @@
-Viewing bike ride {{activityCtrl.activity.name}}
-<div leaflet-map highlight="activityCtrl.highlighted" polyline="activityCtrl.activity.map.polyline" map-id="activityCtrl.activity.id" size="450" />
+<h2>{{activityCtrl.activity.name}}</h2>
+
+<div class="row">
+	<div class="columns" ng-class="{'medium-8': activityCtrl.highlighted, 'medium-12': !activityCtrl.highlighted}">
+		<div leaflet-map highlight="activityCtrl.highlighted.latlngs" polyline="activityCtrl.activity.map.polyline" map-id="activityCtrl.activity.id" size="450" />
+	</div>
+	<div class="medium-4 columns" ng-class="{'hide': !activityCtrl.highlighted}">
+		<table>
+			<tbody>
+				<tr>
+					<td>Segment:</td>
+					<td>{{activityCtrl.highlighted.segment.name}}</td>
+				</tr>
+				<tr>
+					<td>Moving Time:</td>
+					<td>{{activityCtrl.highlighted.segment.temporal.moving | prettyTime}}</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
 
 <table>
 	<thead>
