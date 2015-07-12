@@ -19,7 +19,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
     "watch": "supervisor -w app.js,routes/ -- app.js",
-    "postinstall": "bower install && gulp scripts && gulp templates"
+    "postinstall": "bower install && gulp scripts && gulp templates && gulp sass"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "url": "https://github.com/BaconSoap/hapi-strava/issues"
   },
   "devDependencies": {
+    "gulp-sass": "^2.0.3",
     "supervisor": "^0.7.1"
   }
 }

@@ -23,20 +23,24 @@
 		</table>
 	</div>
 </div>
-
-<table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Moving Time</th>
-			<th>View on Map</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="seg in activityCtrl.segments track by seg.id">
-			<td>{{seg.name}}</td>
-			<td>{{seg.temporal.moving | prettyTime}}</td>
-			<td><a ng-click="activityCtrl.segmentClick(seg)">View</a></td>
-		</tr>
-	</tbody>
-</table>
+<div class="row">
+	<div class="medium-8 columns">
+	<h3>Segments</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Moving Time</th>
+					<th>View on Map</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="seg in activityCtrl.segments track by seg.id">
+					<td>{{seg.name}}</td>
+					<td>{{seg.temporal.moving | prettyTime}}</td>
+					<td><a ng-click="activityCtrl.segmentClick(seg)">View</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
