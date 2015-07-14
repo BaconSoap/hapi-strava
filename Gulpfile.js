@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var ngHtml2Js = require("gulp-ng-html2js");
 var sass = require('gulp-sass');
+var reload = require('gulp-livereload');
 
 var paths = {
   scripts: './public/js/src/**/*.js',
@@ -33,10 +34,12 @@ gulp.task('sass', function() {
       includePaths: ['./public/vendor/foundation/scss']
     }).on('error', sass.logError))
     .pipe(concat('app.css'))
-    .pipe(gulp.dest('./public/css/'));
+    .pipe(gulp.dest('./public/css/'))
+    .pipe(reload());
 });
 
 gulp.task('default', function() {
+  reload.listen();
   gulp.watch(paths.scripts, ['scripts'])
   gulp.watch(paths.templates, ['templates'])
   gulp.watch(paths.styles, ['sass'])
